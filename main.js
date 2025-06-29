@@ -110,8 +110,9 @@ let n3 = 12;
 let n4 = "12";
 
 console.log("---- comparacion estricta ----");
-console.log(n3 == n4);
-console.log(n3 === n4);
-console.log(n3 != n4);
+console.log(n3 == n4); // este retorna True, ya que solo compara el dato (12 contra 12)
+console.log(n3 === n4); // comparacion estricta también compara los tipos de datos
+console.log(n3 != n4); // este retorna False, mismo principio
+console.log(n3 !== n4); // aquí si retorna True
 
 // sugerencia: usar comparacion estricta a menos que se necesite lo contrario
