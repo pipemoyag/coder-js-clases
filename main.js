@@ -1,118 +1,69 @@
-console.log("funciona");
+// EJEMPLO CLASE 7
+const productos = [
+  { id: 1, nombre: "Camiseta", precio: 12000, stock: 15, categoria: "Ropa" },
+  { id: 2, nombre: "Pantalón", precio: 18000, stock: 10, categoria: "Ropa" },
+  { id: 3, nombre: "Zapatos", precio: 35000, stock: 8, categoria: "Calzado" },
+  { id: 4, nombre: "Chaqueta", precio: 45000, stock: 5, categoria: "Ropa" },
+  { id: 5, nombre: "Gorro", precio: 5000, stock: 20, categoria: "Accesorios" },
+  {
+    id: 6,
+    nombre: "Bufanda",
+    precio: 7000,
+    stock: 18,
+    categoria: "Accesorios",
+  },
+  {
+    id: 7,
+    nombre: "Calcetines",
+    precio: 2500,
+    stock: 30,
+    categoria: "Calzado",
+  },
+  {
+    id: 8,
+    nombre: "Mochila",
+    precio: 28000,
+    stock: 12,
+    categoria: "Accesorios",
+  },
+  {
+    id: 9,
+    nombre: "Lentes de sol",
+    precio: 15000,
+    stock: 7,
+    categoria: "Accesorios",
+  },
+  { id: 10, nombre: "Reloj", precio: 60000, stock: 4, categoria: "Accesorios" },
+];
 
-// prompt --> me sirve para simular un input que a futuro sacaremos del HTML
-// prompt("ingresar un numero");
+// queremos mostrar la informacion de todos los productos en el HTML
 
-// consola --> para simular lo que devuelvo en el HTML
-console.log("hola");
-// alert("tu numero es blabla");
+const renderizarProductos = () => {
+  let contenedor = document.querySelector(".productos");
 
-// Variables --> son cajas para guardar algo (datos)
-// let y const, ambas son variables. c/variable tiene 4 partes:
-// el iniciador, el nombre, el '=' y el valor
+  // si bien lo sgte se podria hacer con un reduce o map, es mejor hacerlo con forEach
+  let htmlCompletoDeProductos = "";
 
-let emailDelUsuario = "tu@email.com";
+  productos.forEach((producto) => {
+    htmlCompletoDeProductos += `
+        <div class="producto">
+        <h3>${producto.nombre}</h3>
+        <h5>${producto.precio}</h5>
+        <button onclick="agregarProducto(${producto.id})">Agregar al carrito</button>
+        </div>
+        `;
+  });
 
-let nombre = "pepe";
+  contenedor.innerHTML = htmlCompletoDeProductos;
+};
 
-let password = 123456;
+renderizarProductos();
 
-const apellido = "perez";
-
-console.log("---- variables ----");
-console.log(nombre);
-console.log(password);
-
-// con let, las variables pueden cambiar de valor
-// el let va solo la primera vez que declaro/inicializo la variable
-let edad = 32;
-console.log(edad);
-
-edad = 33;
-console.log(edad);
-
-console.log(apellido);
-// apellido = "moya"; // ERROR, por ser variable tipo const
-
-// palabras reservadas: let, const, return, this, function, etc
-
-// tipos de datos
-
-// strings --> cadena de texto
-let palabra = "casa";
-let frase = "esta es una frase";
-
-// si  quiero usar comillas dobles en alguna parte del texto, debo inicializar con comilla simple, y viceversa
-frase = 'pepe esta "cansado"';
-
-console.log("---- strings y comillas ----");
-console.log(palabra);
-console.log(frase);
-
-// number --> numeros
-
-let numero = 12;
-let numerito = 12.5;
-
-// booleanos --> que responden a una pregunta de si o no (true o false en MINUSCULAS)
-usuarioLogueado = true;
-
-// asignar el input de un prompt a una variable
-console.log("---- uso de prompts ----");
-let nombrePrompt = prompt("ingresa tu nombre");
-
-console.log(nombrePrompt);
-
-// se puede sin asignar variable, javascript resuelve siempre de adentro hacia afuera y de arriba hacia abajo
-// console.log(prompt("ingresa tu apellido"));
-
-// Operadores, para numeros y tambien para strings (concatenar)
-
-// concatenar strings
-
-let saludo = "hola " + nombrePrompt + ", como estas?";
-
-// template literals
-// backsticks --> `` (alt+96), sirve para armar un template literal
-let saludoPro = `hola ${nombrePrompt}, como estas? cumpliste ${edad} años!`;
-
-console.log(saludoPro);
-
-let n1 = 9;
-let n2 = 2;
-
-console.log("---- operaciones ----");
-console.log(n1 + n2);
-console.log(n1 - n2);
-console.log(n1 * n2);
-console.log(n1 / n2);
-
-// modulo, devuelve el resto de la division
-console.log(n1 % 2);
-
-// como obtener booleanos a partir de comparaciones
-let x = 12;
-let z = 15;
-
-// operadores de comparacion --> SIEMPRE SIEMPRE DEVUELVE UN BOOLEANO
-console.log("---- booleanos resultados de comparaciones ----");
-console.log(x > z);
-console.log(x < z);
-console.log(x >= z);
-console.log(x <= z);
-
-// comparacion simple
-console.log(x == z);
-console.log(x != z);
-
-// comparacion estricta
-let n3 = 12;
-let n4 = "12";
-
-console.log("---- comparacion estricta ----");
-console.log(n3 == n4); // este retorna True, ya que solo compara el dato (12 contra 12)
-console.log(n3 === n4); // comparacion estricta también compara los tipos de datos
-console.log(n3 != n4); // este retorna False, mismo principio
-console.log(n3 !== n4); // aquí si retorna True
-
-// sugerencia: usar comparacion estricta a menos que se necesite lo contrario
+// CREACION DEL CARRITO
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+const agregarProducto = (id) => {
+  // con este enfoque NO podíamos entregar el producto entero (objeto), pero sí el id
+  let productoEncontrado = productos.find((producto) => producto.id === id);
+  carrito.push(productoEncontrado);
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+};
